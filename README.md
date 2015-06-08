@@ -1,3 +1,6 @@
+[![Build Status](https://api.travis-ci.org/stealjs/steal-less.svg?branch=master)](https://travis-ci.org/stealjs/steal-less)
+[![npm version](https://badge.fury.io/js/steal-less.svg)](http://badge.fury.io/js/steal-less)
+
 # steal-less
 
 This is a plugin for [SystemJS](https://github.com/systemjs/systemjs) and
