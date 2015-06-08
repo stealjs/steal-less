@@ -1,0 +1,24 @@
+{
+	"name": "steal-less",
+	"version": "0.0.1",
+	"authors": [
+		"Bitovi"
+	],
+	"description": "less plugin for SystemJS and StealJS",
+	"main": "less.js",
+	"keywords": [
+		"systemjs",
+		"stealjs",
+		"less"
+	],
+	"license": "MIT",
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"test"
+	],
+	"devDependencies": {
+		"qunit": "~1.18.0"
+	}
+}
