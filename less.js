@@ -21,7 +21,10 @@ exports.translate = function(load) {
 	}
 
 	return new Promise(function(resolve, reject){
-		var renderOptions = {filename: address};
+		var renderOptions = {
+			filename: address,
+			useFileCache: true
+		};
 		for (var prop in options){
 		   	renderOptions[prop] = options[prop];
 		}
