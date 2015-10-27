@@ -1,6 +1,6 @@
 var css = require("$css");
 var loader = require("@loader");
-var lessEngine = require("less");
+var lessEngine = require("@less-engine");
 
 exports.instantiate = css.instantiate;
 
