@@ -18,4 +18,8 @@ asyncTest("less loads in the right spot", function(){
 	makeIframe("less_imports/dev.html");
 });
 
+asyncTest("tilde", function(){
+	makeIframe("less_tilde/dev.html");
+});
+
 QUnit.start();

@@ -1,6 +1,6 @@
 var css = require("$css");
 var loader = require("@loader");
-var lessEngine = require("@less-engine");
+var lessEngine = require("less");
 
 exports.instantiate = css.instantiate;
 
@@ -43,5 +43,8 @@ exports.translate = function(load) {
 		lessEngine.render(load.source, renderOptions).then(done, fail);
 	});
 };
-
+exports.tildeModules = [
+	/@import ['"](~(.+))['"]/g,
+	/url\(['"](~(.+))['"]/g
+];
 exports.buildType = "css";
