@@ -1,7 +1,13 @@
 @import "~bootstrap/module_b.less";
 
+@location: "~bootstrap/other.png";
+
+
 #test-element {
   .mixin();
   background-image: url("~img-pack/other.png");
 }
 
+#test-element-2 {
+  background-image: url(@location);
+}

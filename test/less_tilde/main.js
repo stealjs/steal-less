@@ -21,15 +21,27 @@ if(window.QUnit) {
 	testImage("#test-element", function(err){
 		if(err){
 			QUnit.ok(false, err);
+			QUnit.start();
+			removeMyself();
 		} else {
 			QUnit.ok(true, "#test-relative");
+			testImage("#test-element-2", function(err){
+				if(err){
+					QUnit.ok(false, err);
+				} else {
+					QUnit.ok(true, "variable strings with ~");
+				}
+				
+				QUnit.start();
+				removeMyself();
+			});
 		}
-		QUnit.start();
-		removeMyself();
+		
 	});
 } else {
 	console.log( $("#test-element").width() );
 	console.log( $("#test-element").css("background-image") );
+	console.log( $("#test-element-2").css("background-image") );
 }
 
 
