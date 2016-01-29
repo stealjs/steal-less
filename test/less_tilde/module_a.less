@@ -1,11 +1,11 @@
-@import "~bootstrap/module_b.less";
+@import LOCATE("bootstrap/module_b.less");
 
-@location: "~bootstrap/other.png";
+@location: LOCATE("bootstrap/other.png");
 
 
 #test-element {
   .mixin();
-  background-image: url("~img-pack/other.png");
+  background-image: url(LOCATE("img-pack/other.png"));
 }
 
 #test-element-2 {
