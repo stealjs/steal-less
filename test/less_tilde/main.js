@@ -9,7 +9,6 @@ var testImage = function(selector, cb){
 	image.onerror = function(){
 		cb(selector);
 		QUnit.ok(false, "image not loaded");
-		QUnit.start();
 		removeMyself();
 	};
 	image.src = $(selector).css("background-image").replace(/url\("?/,"").replace(/"?\)/,"");
@@ -18,6 +17,7 @@ var testImage = function(selector, cb){
 
 if(window.QUnit) {
 	QUnit.ok( $("#test-element").width(), 20);
+	QUnit.ok( $("#test-element").css('color'), 'goldenrod');
 	testImage("#test-element", function(err){
 		if(err){
 			QUnit.ok(false, err);
@@ -28,12 +28,22 @@ if(window.QUnit) {
 			testImage("#test-element-2", function(err){
 				if(err){
 					QUnit.ok(false, err);
+					QUnit.start();
+					removeMyself();
 				} else {
-					QUnit.ok(true, "variable strings with ~");
+					QUnit.ok(true, "#test-element-2, variable strings with locate://");
+					testImage("#test-element-3", function(err){
+						if(err){
+							QUnit.ok(false, err + ' background image didn\'t load');
+							removeMyself();
+						} else {
+							QUnit.ok(true, "#test-element-3, imported variable strings with locate://");
+						}
+
+						QUnit.start();
+						removeMyself();
+					});
 				}
-				
-				QUnit.start();
-				removeMyself();
 			});
 		}
 		
