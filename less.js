@@ -82,7 +82,7 @@ if (lessEngine.FileManager) {
 		file.contents.replace(self.PATTERN, function (whole, path, index) {
 			promises.push(self.locate(path, file.filename.replace(loader.baseURL, '')).then(function(filename) {
 				return {
-					str: filename.replace(directory, ''),
+					str: filename.replace(file._directory, ''),
 					loc: index,
 					del: whole.length
 				}
@@ -107,6 +107,8 @@ if (lessEngine.FileManager) {
 			promise;
 
 		callback = function(err, file) {
+			file._directory = directory;
+
 			self.parseFile(file).then(function(file) {
 				_callback.call(self, null, file);
 			});
@@ -117,6 +119,8 @@ if (lessEngine.FileManager) {
 		// when promise is returned we must wrap promise, when one is not, the wrapped callback is used
 		if (promise && typeof promise.then == 'function') {
 			return promise.then(function(file) {
+				file._directory = directory;
+
 				return self.parseFile(file);
 			});
 		}
