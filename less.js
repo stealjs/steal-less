@@ -13,7 +13,7 @@ exports.translate = function(load) {
 	var address = load.address.replace(/^file\:/,"");
 
 	var pathParts = (address+'').split('/');
-		pathParts[pathParts.length - 1] = ''; // Remove filename
+	pathParts[pathParts.length - 1] = ''; // Remove filename
 
 	if (typeof window !== 'undefined') {
 		pathParts = (load.address+'').split('/');
@@ -26,7 +26,7 @@ exports.translate = function(load) {
 			useFileCache: true
 		};
 		for (var prop in options){
-		   	renderOptions[prop] = options[prop];
+			renderOptions[prop] = options[prop];
 		}
 		renderOptions.paths = (options.paths || []).concat(pathParts.join('/'));
 
@@ -75,36 +75,51 @@ if (lessEngine.FileManager) {
 			});
 	};
 
+	StealLessManager.prototype.parseFile = function(file) {
+		var self = this;
+		var promises = [];
+		// collect locate promises
+		file.contents.replace(self.PATTERN, function (whole, path, index) {
+			promises.push(self.locate(path, file.filename.replace(loader.baseURL, '')).then(function(filename) {
+				return {
+					str: filename.replace(directory, ''),
+					loc: index,
+					del: whole.length
+				}
+			}));
+		});
+
+		return Promise.all(promises).then(function(spliceDefs) {
+			for(var i = spliceDefs.length; i--;) {
+				var def = spliceDefs[i];
+				file.contents = file.contents.slice(0, def.loc) + def.str + file.contents.slice(def.loc + def.del);
+			}
+
+			return file;
+		});
+	};
+
 	StealLessManager.prototype.loadFile = function(filename, currentDirectory, options, environment, callback) {
 		var self = this,
 			_callback = callback,
 			path = (currentDirectory + filename),
-			directory = path.substring(0, path.lastIndexOf('/')+1);
+			directory = path.substring(0, path.lastIndexOf('/')+1),
+			promise;
 
 		callback = function(err, file) {
-			var promises = [];
-			// collect locate promises
-			file.contents.replace(self.PATTERN, function (whole, path, index) {
-				promises.push(self.locate(path, file.filename.replace(loader.baseURL, '')).then(function(filename) {
-					return {
-						str: filename.replace(directory, ''),
-						loc: index,
-						del: whole.length
-					}
-				}));
-			});
-
-			Promise.all(promises).then(function(spliceDefs) {
-				for(var i = spliceDefs.length; i--;) {
-					var def = spliceDefs[i];
-					file.contents = file.contents.slice(0, def.loc) + def.str + file.contents.slice(def.loc + def.del);
-				}
-
-				_callback.apply(this, [err, file]);
+			self.parseFile(file).then(function(file) {
+				_callback.call(self, null, file);
 			});
 		};
 
-		FileManager.prototype.loadFile.call(this, filename, currentDirectory, options, environment, callback);
+		promise = FileManager.prototype.loadFile.call(this, filename, currentDirectory, options, environment, callback);
+
+		// when promise is returned we must wrap promise, when one is not, the wrapped callback is used
+		if (promise && typeof promise.then == 'function') {
+			return promise.then(function(file) {
+				return self.parseFile(file);
+			});
+		}
 	};
 
 	stealLessPlugin = {
