@@ -18,4 +18,8 @@ asyncTest("less loads in the right spot", function(){
 	makeIframe("less_imports/dev.html");
 });
 
+asyncTest("less loads imports that include locate:// paths", function(){
+	makeIframe("less_tilde/dev.html");
+});
+
 QUnit.start();

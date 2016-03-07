@@ -1,6 +1,6 @@
 {
 	"name":"steal-less",
-	"version":"0.0.2",
+	"version":"0.1.0",
 	"description":"less plugin for StealJS and SystemJS",
 	"main":"css.js",
 	"scripts":{
@@ -22,14 +22,20 @@
 	},
 	"homepage":"https://github.com/stealjs/steal-less",
 	"dependencies": {
-		"less": "^2.4.0"
+		"less": "2.4.0 - 2.5.3"
 	},
 	"devDependencies":{
 		"bower":"^1.4.1",
 		"grunt": "^0.4.5",
-		"steal":"^0.10.1",
-		"testee": "^0.1.7",
+		"steal":"stealjs/steal#605-locate-path-schemes",
+		"testee": "^0.2.5",
 		"steal-css": "^0.0.2",
 		"systemjs":"bitovi/systemjs#b664e4cd359c013acb3445627d1e1e1799424542"
+	},
+	"system": {
+	    "npmAlgorithm": "flat",
+	    "npmIgnore": [
+	      "testee", "grunt"
+	    ]
 	}
 }
