@@ -109,6 +109,10 @@ if (lessEngine.FileManager) {
 			promise;
 
 		callback = function(err, file) {
+			if (err) {
+				return _callback.call(self, err);
+			}
+
 			file._directory = directory;
 
 			self.parseFile(file).then(function(file) {
