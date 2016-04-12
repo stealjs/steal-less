@@ -16,8 +16,10 @@ var testImage = function(selector, cb){
 
 
 if(window.QUnit) {
-	QUnit.ok( $("#test-element").width(), 20);
-	QUnit.ok( $("#test-element").css('color'), 'goldenrod');
+	QUnit.equal( $("#test-element").width(), 20, 'applied mixin-b');
+	QUnit.equal( $("#test-element").height(), 20), 'applied mixin-c';
+	QUnit.equal( $('#test-element-4').width(), 1337, 'locate://\'ed resource from importer whose path includes "../"');
+
 	testImage("#test-element", function(err){
 		if(err){
 			QUnit.ok(false, err);
