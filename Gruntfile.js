@@ -6,7 +6,7 @@ module.exports = function(grunt){
 			options: {
 				browsers: ["firefox"]
 			},
-			all: ["test/test.html"]
+			all: ["test/test.html", "test/unit.html"]
 		}
 	});
 
