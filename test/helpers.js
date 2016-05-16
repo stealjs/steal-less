@@ -6,7 +6,8 @@ module.exports = function(loader){
 	var oldFetch, oldLessLoad;
 	var sources = {};
 
-	var overrideFetch = function() {
+	var mockedFetch;
+	var overrideFetch = mockedFetch = function () {
 		oldFetch = loader.fetch;
 		loader.fetch = function(load){
 			if(sources[load.name]) {
@@ -18,22 +19,35 @@ module.exports = function(loader){
 	};
 
 	return {
-		mock: function(){
-			return Promise.resolve();;
+		mockLiveReload: function(isReloading){
+			loader.liveReloadInstalled = true;
+			loader.set("live-reload", loader.newModule({
+				isReloading: function(){
+					return typeof isReloading === "boolean" ?
+						isReloading : true;
+				}
+			}));
 		},
 		provide: function(name, source){
 			overrideFetch();
 			sources[name] = source;
 		},
-		provideLess: function(relPath, source){
-			global.LESS_SOURCES[relPath] = source;
+		provideLess: function(pth, source){
+			var exp = typeof pth === "string" ? new RegExp(pth) : pth;
+			global.LESS_SOURCES[exp.toString()] = {
+				exp: exp,
+				code: source
+			};
 		},
 		restore: function(){
 			if(oldFetch) {
 				loader.fetch = oldFetch;
+				overrideFetch = mockedFetch;
 			}
 			sources = {};
 			global.LESS_SOURCES = {};
+			loader.delete("live-reload");
+			delete loader.liveReloadInstalled;
 		}
 	};
 };

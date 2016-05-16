@@ -13,22 +13,17 @@ function extend(a, b) {
 
 extend(exports, plugin);
 
-var loadFile = StealLessManager.prototype.loadFile;
-StealLessManager.prototype.loadFile = function(filename,
-											   currentDirectory,
-											   options, environment,
-											   callback){
-	var srces = global.LESS_SOURCES || {};
-	var src = srces[filename];
-	if(src) {
-		callback(null, {
-			contents: src,
-			filename: steal.joinURIs(currentDirectory, filename)
-		});
-		return;
+var doXHR = StealLessManager.prototype.doXHR;
+StealLessManager.prototype.doXHR = function(url, type, callback, errback) {
+	var sources = global.LESS_SOURCES || [], source;
+	for(var p in sources) {
+		source = sources[p];
+		if(source.exp.test(url)) {
+			callback(source.code, new Date());
+			return;
+		}
 	}
-
-	return loadFile.apply(this, arguments);
+	return doXHR.apply(this, arguments);
 };
 
 exports.instantiate = function(load){
