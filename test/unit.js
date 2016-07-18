@@ -89,3 +89,31 @@ QUnit.test("less fileCache is not used if live reloading", function(assert){
 		done(err);
 	});
 });
+
+QUnit.test("steal-less' file cache is not used if live reloading", function(assert){
+	var done = assert.async();
+
+	helpers.provide("foo.less!$less", "body { background: green; }");
+
+	loader.import("foo.less")
+	.then(function(){
+		loader.delete("foo.less!$less");
+		helpers.provide("foo.less!$less", "body { background: red; }");
+
+		helpers.mockLiveReload(true);
+
+		return loader.import("foo.less");
+	})
+	.then(function(){
+		var load = loader.getModuleLoad("foo.less!$less");
+		var source = load.source;
+
+		assert.ok(/background\: red/.test(source), "got the correct source");
+		assert.ok(!loader._lessSources[load.address], "source not cached");
+		done();
+	}, function(err){
+		console.log("ARG", err);
+		assert.ok(!err, err & err.stack);
+		done(err);
+	});
+});
