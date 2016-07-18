@@ -11,10 +11,21 @@ module.exports = function(loader){
 	var overrideFetch = mockedFetch = function () {
 		oldFetch = loader.fetch;
 		loader.fetch = function(load){
-			if(sources[load.name]) {
-				return Promise.resolve(sources[load.name]);
+			var lessPlugin = this.get("$less");
+			var lessPluginFetch = lessPlugin && lessPlugin["default"].fetch;
+
+			var fetch = function(){
+				if(sources[load.name]) {
+					return Promise.resolve(sources[load.name]);
+				}
+				return oldFetch.apply(this, arguments);
+			};
+
+			if(lessPluginFetch) {
+				return lessPluginFetch.call(this, load, fetch);
+			} else {
+				return fetch.call(this, load);
 			}
-			return oldFetch.apply(this, arguments);
 		};
 		overrideFetch = function(){};
 	};
