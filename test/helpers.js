@@ -1,7 +1,6 @@
 var steal = require("@steal");
 var global = require("@loader").global;
 global.LESS_SOURCES = {};
-global.LESS_USED_SOURCES = [];
 
 module.exports = function(loader){
 	var oldFetch, oldLessLoad;
@@ -47,7 +46,6 @@ module.exports = function(loader){
 			}
 			sources = {};
 			global.LESS_SOURCES = {};
-			global.LESS_USED_SOURCES = [];
 			loader.delete("live-reload");
 			delete loader.liveReloadInstalled;
 		}
