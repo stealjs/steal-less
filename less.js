@@ -12,6 +12,12 @@ options.optimization |= lessEngine.optimization;
 // We store sources so files are only fetched once and shared between
 // Steal and the Less File Manager
 exports.fetch = function(load, fetch){
+	var liveReload = loader.get("live-reload");
+	if(liveReload && liveReload.isReloading()) {
+		removeSource(load.address);
+		return fetch.apply(this, arguments);
+	}
+
 	var p = getSource(load.address);
 	if(p) {
 		return p;
@@ -197,6 +203,12 @@ var addSource = function(url, p){
 	}
 	if(!loader._lessSources[url]) {
 		loader._lessSources[url] = Promise.resolve(p);
+	}
+};
+
+var removeSource = function(url){
+	if(loader._lessSources) {
+		delete loader._lessSources[url];
 	}
 };
 
