@@ -1,7 +1,8 @@
 System.config({
 	lessOptions: {
 		strictMath: true, // default false
-		dumpLineNumbers: "comments" // default false
+		dumpLineNumbers: "comments", // default false
+		plugins: ["less_plugins/plugin"]
 	},
 	paths: {
 		"bootstrap/*": "less_tilde/libs/bootstrap/*",
