@@ -22,12 +22,12 @@
   },
   "homepage": "https://github.com/stealjs/steal-less",
   "dependencies": {
-    "less": "2.4.0 - 2.5.3"
+    "less": "^2.4.0"
   },
   "devDependencies": {
     "bower": "^1.4.1",
     "grunt": "^0.4.5",
-    "steal": "^0.15.0",
+    "steal": "^0.16.0",
     "steal-css": "^0.0.2",
     "steal-qunit": "^0.1.1",
     "systemjs": "bitovi/systemjs#b664e4cd359c013acb3445627d1e1e1799424542",
