@@ -30,15 +30,21 @@ module.exports = function(loader){
 		overrideFetch = function(){};
 	};
 
+	var lessModuleName;
+
 	return {
 		mockLiveReload: function(isReloading){
 			loader.liveReloadInstalled = true;
-			loader.set("live-reload", loader.newModule({
-				isReloading: function(){
-					return typeof isReloading === "boolean" ?
-						isReloading : true;
-				}
-			}));
+
+			loader.setContextual("live-reload", function(parentName){
+				lessModuleName = parentName;
+				return {
+					isReloading: function(){
+						return typeof isReloading === "boolean" ?
+							isReloading : true;
+					}
+				};
+			});
 		},
 		provide: function(name, source){
 			overrideFetch();
@@ -59,7 +65,7 @@ module.exports = function(loader){
 			sources = {};
 			global.LESS_SOURCES = {};
 			global.LESS_USED_SOURCES = [];
-			loader.delete("live-reload");
+			loader.delete("live-reload/" + lessModuleName);
 			delete loader.liveReloadInstalled;
 		}
 	};
