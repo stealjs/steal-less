@@ -1,6 +1,6 @@
 {
   "name": "steal-less",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "less plugin for StealJS and SystemJS",
   "main": "less.js",
   "scripts": {
