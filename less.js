@@ -9,6 +9,8 @@ var options = loader.lessOptions || {};
 // default optimization value.
 options.optimization |= lessEngine.optimization;
 
+lessEngine.options.async = true;
+
 exports.translate = function(load) {
 	var address = load.address.replace(/^file\:/,"");
 	var useFileCache = true;
