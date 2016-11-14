@@ -1,4 +1,4 @@
-var css = require("$css");
+var css = require("steal-css");
 var loader = require("@loader");
 var lessEngine = require("@less-engine");
 
@@ -6,13 +6,43 @@ exports.instantiate = css.instantiate;
 
 var options = loader.lessOptions || {};
 
-// default optimization value.
-options.optimization |= lessEngine.optimization;
-
 if(lessEngine.options) {
 	lessEngine.options.async = true;
 }
 
+// default optimization value.
+options.optimization |= lessEngine.optimization;
+
+// We store sources so files are only fetched once and shared between
+// Steal and the Less File Manager
+exports.fetch = function(load, fetch){
+	var p = Promise.resolve(false);
+	if(this.liveReloadInstalled) {
+		var loader = this, args = arguments;
+		p = loader.import("live-reload", { name: module.id })
+		.then(function(liveReload){
+			return liveReload.isReloading();
+		});
+	}
+
+	var loader = this, args = arguments;
+
+	return p.then(function(isReloading){
+		if(isReloading) {
+			removeSource(load.address);
+			return fetch.apply(loader, args);
+		}
+
+		var p = getSource(load.address);
+		if(p) {
+			return p;
+		}
+
+		p = fetch.call(loader, load);
+		addSource(load.address, p);
+		return p;
+	});
+};
 
 exports.translate = function(load) {
 	var address = load.address.replace(/^file\:/,"");
@@ -171,6 +201,25 @@ if (lessEngine.FileManager) {
 
 	exports.StealLessManager = StealLessManager;
 }
+
+var getSource = function(url){
+	return loader._lessSources && loader._lessSources[url];
+}
+
+var addSource = function(url, p){
+	if(!loader._lessSources) {
+		loader._lessSources = {};
+	}
+	if(!loader._lessSources[url]) {
+		loader._lessSources[url] = Promise.resolve(p);
+	}
+};
+
+var removeSource = function(url){
+	if(loader._lessSources) {
+		delete loader._lessSources[url];
+	}
+};
 
 var normalizePath = function(path) {
 	var parts = path.split('/'),

@@ -1,10 +1,11 @@
 {
   "name": "steal-less",
-  "version": "0.3.6",
-  "description": "less plugin for StealJS and SystemJS",
+  "version": "0.4.0-pre.1",
+  "description": "less plugin for StealJS",
   "main": "less.js",
   "scripts": {
-    "test": "grunt test"
+    "document": "bit-docs",
+    "test": "testee test/test.html test/unit.html --browsers firefox --reporter Spec"
   },
   "repository": {
     "type": "git",
@@ -12,7 +13,6 @@
   },
   "keywords": [
     "StealJS",
-    "SystemJS",
     "LESS"
   ],
   "author": "Bitovi",
@@ -22,22 +22,38 @@
   },
   "homepage": "https://github.com/stealjs/steal-less",
   "dependencies": {
-    "less": "^2.4.0"
+    "less": "2.4.0 - 2.5.3",
+    "steal-css": "^1.0.0-rc.0"
   },
   "devDependencies": {
+    "bit-docs": "0.0.6",
     "bower": "^1.4.1",
-    "grunt": "^0.4.5",
-    "steal": "^0.16.0",
-    "steal-css": "^0.0.2",
+    "qunitjs": "^1.23.1",
+    "steal": "^1.0.0-rc.0",
+    "steal-css": "^1.0.0-rc.0",
     "steal-qunit": "^0.1.1",
-    "systemjs": "bitovi/systemjs#b664e4cd359c013acb3445627d1e1e1799424542",
     "testee": "^0.2.5"
   },
-  "system": {
-    "npmAlgorithm": "flat",
-    "npmIgnore": [
-      "testee",
-      "grunt"
-    ]
+  "steal": {
+    "ext": {
+      "less": "steal-less"
+    }
+  },
+  "bit-docs": {
+    "dependencies": {
+      "bit-docs-glob-finder": "^0.0.5",
+      "bit-docs-dev": "^0.0.3",
+      "bit-docs-js": "^0.0.3",
+      "bit-docs-generate-readme": "^0.0.8"
+    },
+    "glob": {
+      "pattern": "**/*.{js,md}",
+      "ignore": "node_modules/**/*"
+    },
+    "readme": {
+      "apis": ["steal-less"]
+    },
+    "parent": "steal-less"
   }
+
 }

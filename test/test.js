@@ -1,4 +1,5 @@
 QUnit.module("steal-less plugin");
+var asyncTest = QUnit.asyncTest;
 
 var makeIframe = function(src){
 	var iframe = document.createElement('iframe');
