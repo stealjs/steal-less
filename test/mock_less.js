@@ -1,4 +1,4 @@
-var plugin = require("steal-less");
+var plugin = require("less-plugin");
 var steal = require("@steal");
 var loader = require("@loader");
 var global = loader.global;
