@@ -6,6 +6,10 @@ exports.instantiate = css.instantiate;
 
 var options = loader.lessOptions || {};
 
+if(lessEngine.options) {
+	lessEngine.options.async = true;
+}
+
 // default optimization value.
 options.optimization |= lessEngine.optimization;
 
@@ -53,36 +57,46 @@ exports.translate = function(load) {
 	}
 
 	function renderLess() {
-		return new Promise(function(resolve, reject){
-			var renderOptions = {
-				filename: address,
-				useFileCache: useFileCache
-			};
-			for (var prop in options){
+		var renderOptions = {
+			filename: address,
+			useFileCache: useFileCache
+		};
+		var pluginPromises = [];
+
+		for (var prop in options){
+			if( prop !== 'plugins') {
 				renderOptions[prop] = options[prop];
 			}
-			renderOptions.paths = (options.paths || []).concat(pathParts.join('/'));
+		}
+		renderOptions.paths = (options.paths || []).concat(pathParts.join('/'));
 
-			renderOptions.plugins = (options.plugins || []);
-			if (stealLessPlugin !== undefined) {
-				renderOptions.plugins.push(stealLessPlugin);
-			}
+		renderOptions.plugins = [];
+		if(options.plugins) {
+			options.plugins.forEach(function(plugin) {
+				if(typeof plugin === 'string') {
+					pluginPromises.push(loader.import(plugin).then(function(resolvedPlugin){
+						renderOptions.plugins.push(resolvedPlugin);
+					}));
+				}
+			});
+		}
+		if (stealLessPlugin !== undefined) {
+			renderOptions.plugins.push(stealLessPlugin);
+		}
 
-			renderOptions.relativeUrls = options.relativeUrls === undefined ? true : options.relativeUrls;
+		renderOptions.relativeUrls = options.relativeUrls === undefined ? true : options.relativeUrls;
 
-			var done = function(output) {
-				// Put the source map on metadata if one was created.
-				load.metadata.map = output.map;
-				load.metadata.includedDeps = output.imports || [];
-				resolve(output.css);
-			};
+		var done = function(output) {
+			// Put the source map on metadata if one was created.
+			load.metadata.map = output.map;
+			load.metadata.includedDeps = output.imports || [];
+			return output.css;
+		};
 
-			var fail = function(error) {
-				reject(error);
-			};
-
-			lessEngine.render(load.source, renderOptions).then(done, fail);
+		return Promise.all(pluginPromises).then(function(){
+			return lessEngine.render(load.source, renderOptions).then(done);
 		});
+
 	}
 
 	if(loader.liveReloadInstalled) {
@@ -94,8 +108,6 @@ exports.translate = function(load) {
 		})
 		.then(renderLess, renderLess);
 	}
-
-	addSource(load.address, load.source);
 
 	return renderLess();
 };
@@ -158,7 +170,6 @@ if (lessEngine.FileManager) {
 			promise;
 
 		callback = function(err, file) {
-			addSource(file.filename, Promise.resolve(file.contents));
 			if (err) {
 				return _callback.call(self, err);
 			}
@@ -172,8 +183,7 @@ if (lessEngine.FileManager) {
 
 		promise = FileManager.prototype.loadFile.call(this, filename, currentDirectory, options, environment, callback);
 
-		// when promise is returned we must wrap promise, when one is not,
-		// the wrapped callback is used
+		// when promise is returned we must wrap promise, when one is not, the wrapped callback is used
 		if (promise && typeof promise.then == 'function') {
 			return promise.then(function(file) {
 				file._directory = directory;
@@ -181,19 +191,6 @@ if (lessEngine.FileManager) {
 				return self.parseFile(file);
 			});
 		}
-	};
-
-	var doXHR = StealLessManager.prototype.doXHR;
-	StealLessManager.prototype.doXHR = function(url, type, callback, errback){
-		var p = getSource(url);
-		if(p) {
-			return p.then(function(src){
-				callback(src, new Date());
-			}, function(err){
-				errback(err);
-			});
-		}
-		return doXHR.apply(this, arguments);
 	};
 
 	stealLessPlugin = {

@@ -19,7 +19,6 @@ StealLessManager.prototype.doXHR = function(url, type, callback, errback) {
 	for(var p in sources) {
 		source = sources[p];
 		if(source.exp.test(url)) {
-			global.LESS_USED_SOURCES.push(url);
 			callback(source.code, new Date());
 			return;
 		}
@@ -27,12 +26,11 @@ StealLessManager.prototype.doXHR = function(url, type, callback, errback) {
 	return doXHR.apply(this, arguments);
 };
 
-StealLessManager.usedSources = [];
-
 exports.instantiate = function(load){
-	load.metadata.format = 'less';
-	load.metadata.deps = [];
-	load.metadata.execute = function(){
-		return {};
+	return {
+		deps: [],
+		execute: function(){
+			return loader.newModule({});
+		}
 	};
 };
