@@ -11,6 +11,7 @@ System.config({
 		"bootstrap/*": "less_tilde/libs/bootstrap/*",
 		"img-pack/*": "less_tilde/libs/img-pack/*",
 		"steal-css": "../node_modules/steal-css/css.js",
-		"steal-less": "../less.js"
+		"steal-less": "../less.js",
+		"less-engine": "../node_modules/less/dist/less.js"
 	}
 });
