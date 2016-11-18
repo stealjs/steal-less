@@ -1,4 +1,2 @@
-var loader = require("@loader");
-var nodeRequire = loader._nodeRequire;
-
+var nodeRequire = require("@node-require");
 module.exports = nodeRequire("less");
