@@ -35,6 +35,9 @@
     "testee": "^0.2.5"
   },
   "steal": {
+    "plugins": [
+      "steal-css"
+    ],
     "envs": {
       "build-development": {
         "map": {
