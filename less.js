@@ -94,7 +94,10 @@ exports.translate = function(load) {
 		};
 
 		return Promise.all(pluginPromises).then(function(){
-			return lessEngine.render(load.source, renderOptions).then(done);
+			var p = Promise.resolve(
+				lessEngine.render(load.source, renderOptions)
+			);
+			return p.then(done);
 		});
 
 	}
