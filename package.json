@@ -1,6 +1,6 @@
 {
   "name": "steal-less",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "less plugin for StealJS",
   "main": "less.js",
   "scripts": {
@@ -23,7 +23,7 @@
   "homepage": "https://github.com/stealjs/steal-less",
   "dependencies": {
     "less": "2.4.0 - 2.5.3",
-    "steal-css": "^1.0.0-rc.0"
+    "steal-css": "^1.0.0"
   },
   "devDependencies": {
     "bit-docs": "0.0.6",
