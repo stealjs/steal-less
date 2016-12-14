@@ -16,7 +16,20 @@ Install steal-less with npm, saving to your development dependencies:
 > npm install steal-less --save-dev
 ```
 
-steal-less will automatically configure itself so that all you need to do is import your LESS modules:
+In your package.json add steal-less as a plugin under your **steal** (or **system**) configuration:
+
+```json
+...
+
+"steal": {
+  "plugins": [
+    "steal-less"
+  ]
+}
+```
+
+
+From there all you need to do is import your LESS modules:
 
 ```js
 import './styles.less';
