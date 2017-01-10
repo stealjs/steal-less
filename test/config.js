@@ -7,6 +7,9 @@ System.config({
 	ext: {
 		less: "steal-less"
 	},
+	map: {
+		"$css": "steal-css"
+	},
 	paths: {
 		"bootstrap/*": "less_tilde/libs/bootstrap/*",
 		"img-pack/*": "less_tilde/libs/img-pack/*",
