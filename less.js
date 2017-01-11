@@ -1,4 +1,4 @@
-var css = require("steal-css");
+var css = require("$css");
 var loader = require("@loader");
 var lessEngine = require("./less-engine");
 
