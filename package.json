@@ -38,11 +38,6 @@
       "steal-css"
     ],
     "envs": {
-      "build-development": {
-        "map": {
-          "steal-less/less-engine": "steal-less/less-engine-node"
-        }
-      },
       "build": {
         "map": {
           "steal-less/less-engine": "steal-less/less-engine-node"
@@ -56,6 +51,16 @@
       "server-production": {
         "map": {
           "steal-less/less-engine": "steal-less/less-engine-node"
+        }
+      },
+      "bundle-build": {
+        "map": {
+          "steal-less/less-engine": "steal-less/less-engine-node"
+        },
+        "meta": {
+          "steal-less/less": {
+            "useLocalDeps": true
+          }
         }
       }
     },
