@@ -5,28 +5,47 @@
 
 This is a plugin for [StealJS](http://stealjs.com/) that makes it easy to work with [less](http://lesscss.org/) files.
 
-## Install
+## Usage
 
-Install this as another npm dependency:
+Install `steal-less` as an npm dependency:
 
-```js
+```shell
 npm install steal-less --save-dev
 ```
 
-## Use
-
-To use, add steal-less as a plugin in your "steal" options in package.json like so:
+Next, add `steal-less` under `plugins` in the `steal` section of your `package.json`:
 
 ```json
-...
-
-"steal": {
-  "plugins": [
-    "steal-less"
-  ]
+{
+  "name": "your-project",
+  ...
+  "steal": {
+    "plugins": [
+      "steal-less"
+    ],
+    ...
+  }
 }
 ```
 
-## License
+Once installed, `steal-less` allows you to import/require/steal Less files within your project:
 
-MIT
+```js
+// ES6
+import "style.less!";
+
+// AMD
+define(["style.less!"],function(){ ... });
+
+// CommonJS
+require("style.less!");
+
+// steal
+steal("style.less!")
+```
+
+## Contributing
+
+Want to help make `steal-less` even better? See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+Looking for a changelog? Try the [releases page on GitHub](https://github.com/stealjs/steal-less/releases).
