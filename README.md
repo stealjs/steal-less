@@ -32,16 +32,16 @@ Once installed, `steal-less` allows you to import/require/steal Less files withi
 
 ```js
 // ES6
-import "style.less!";
+import "style.less";
 
 // AMD
-define(["style.less!"],function(){ ... });
+define(["style.less"],function(){ ... });
 
 // CommonJS
-require("style.less!");
+require("style.less");
 
 // steal
-steal("style.less!")
+steal("style.less")
 ```
 
 ## Contributing
