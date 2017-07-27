@@ -6,4 +6,4 @@ before_install:
   - "sh -e /etc/init.d/xvfb start"
 script: npm test
 addons:
-  firefox: "49.0"
+  firefox: "51.0"
