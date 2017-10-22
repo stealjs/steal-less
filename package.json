@@ -28,7 +28,7 @@
   "devDependencies": {
     "bit-docs": "0.0.7",
     "bower": "^1.4.1",
-    "qunitjs": "^1.23.1",
+    "qunitjs": "^2.4.1",
     "steal": "^1.0.0",
     "steal-qunit": "^1.0.0",
     "testee": "^0.3.0"
