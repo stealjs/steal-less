@@ -109,7 +109,11 @@ exports.translate = function(load) {
 				useFileCache = false;
 			}
 		})
-		.then(renderLess, renderLess);
+		.then(renderLess, renderLess)
+		.catch(function(err) {
+			console.error(err.message + " in " + err.filename + ":" + err.line);
+			console.dir(err);
+		});
 	}
 
 	return renderLess();
