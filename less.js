@@ -104,7 +104,7 @@ exports.translate = function(load) {
 				if(err.type === "File" && /404/.test(err.message)) {
 					if(loader._addSourceInfoToError) {
 						var fn = err.filename.split("/").pop();
-						var msg = "The stylesheet [" + fn + "] was able to fetch a dependency.\n" +
+						var msg = "The stylesheet [" + fn + "] wasn't able to fetch a dependency.\n" +
 							"This could be because:\n\n" +
 							"\t - The dependency hasn't been saved yet.\n" +
 							"\t - The path is incorrect.\n\n" +
