@@ -45,6 +45,7 @@ exports.fetch = function(load, fetch){
 };
 
 exports.translate = function(load) {
+	var loader = this;
 	var address = load.address.replace(/^file\:/,"");
 	var useFileCache = true;
 
@@ -97,7 +98,27 @@ exports.translate = function(load) {
 			var p = Promise.resolve(
 				lessEngine.render(load.source, renderOptions)
 			);
-			return p.then(done);
+			return p.then(done).then(null, function(err){
+				// 404.
+				//!steal-remove-start
+				if(err.type === "File" && /404/.test(err.message)) {
+					if(loader._addSourceInfoToError) {
+						var fn = err.filename.split("/").pop();
+						var msg = "The stylesheet [" + fn + "] was able to fetch a dependency.\n" +
+							"This could be because:\n\n" +
+							"\t - The dependency hasn't been saved yet.\n" +
+							"\t - The path is incorrect.\n\n" +
+							"The below snippet shows the file we were unable to fetch.\n" +
+							"See https://stealjs.com/docs/StealJS.error-messages.html#404-not-found for more information.";
+
+						var newError = new Error(msg);
+						var pos = { line: err.line, column: err.column };
+						return loader._addSourceInfoToError(newError, pos, load, "@import");
+					}
+				}
+				//!steal-remove-end
+				return Promise.reject(err);
+			});
 		});
 
 	}
