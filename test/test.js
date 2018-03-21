@@ -23,4 +23,8 @@ asyncTest("less loads imports that include locate:// paths", function(){
 	makeIframe("less_tilde/dev.html");
 });
 
+asyncTest("Get good error messages on 404s", function() {
+	makeIframe("less_error/dev.html");
+})
+
 QUnit.start();
