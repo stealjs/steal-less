@@ -58,8 +58,13 @@ exports.translate = function(load) {
 	}
 
 	function renderLess() {
+		var filename = address;
+		if(loader._nodeRequire) {
+			filename = loader._nodeRequire("path").resolve(address);
+		}
+
 		var renderOptions = {
-			filename: address,
+			filename: filename,
 			useFileCache: useFileCache
 		};
 		var pluginPromises = [];
