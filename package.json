@@ -66,6 +66,12 @@
     },
     "ext": {
       "less": "steal-less"
+    },
+    "meta": {
+      "less/dist/less": {
+        "format": "global",
+        "deps": ["steal-less/less-config"]
+      }
     }
   },
   "bit-docs": {
