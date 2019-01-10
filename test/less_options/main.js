@@ -1,4 +1,4 @@
-if (typeof window !== "undefined" && window.QUnit) {
+if (typeof window !== "undefined" && window.assert) {
 	var systemInstantiate = System.instantiate;
 
 	System.instantiate = function(load) {
@@ -7,11 +7,10 @@ if (typeof window !== "undefined" && window.QUnit) {
 				hasStrictMath = load.source.indexOf("100%") !== -1,
 				hasPlugin = load.source.indexOf("/* steal-plugin-test */") !== -1;
 
-			QUnit.ok(hasLineNumber, "less set to dump line numbers");
-			QUnit.ok(hasStrictMath, "less set to process only maths inside un-necessary parenthesis");
-			QUnit.ok(hasPlugin, "less set to apply plugins");
-			QUnit.start();
-			removeMyself();
+			assert.ok(hasLineNumber, "less set to dump line numbers");
+			assert.ok(hasStrictMath, "less set to process only maths inside un-necessary parenthesis");
+			assert.ok(hasPlugin, "less set to apply plugins");
+			done();
 		}
 		return systemInstantiate.apply(this, arguments);
 	};

@@ -1,7 +1,7 @@
 <body>
 	<script>
-		window.QUnit = window.parent.QUnit;
-		window.removeMyself = window.parent.removeMyself;
+		window.assert = window.parent.assert;
+		window.done = window.parent.done;
 	</script>
 
 	<script type="text/javascript"
@@ -11,17 +11,16 @@
 
 	<script>
 		System['import']('less_imports/main').then(function(){
-			QUnit.ok(true, "was able to load");
-			QUnit.start();
-			removeMyself();
-		}, function(){
-			if (!window.QUnit) {
+			assert.ok(true, "was able to load");
+			done();
+		}, function(err){
+			console.log(err);
+			if (!window.assert) {
 				console.log("borked");
 			} else {
-				QUnit.ok(false, "was unable to load");
-				QUnit.start();
-				removeMyself();
+				assert.ok(false, "was unable to load");
 			}
+			done();
 		});
 	</script>
 </body>

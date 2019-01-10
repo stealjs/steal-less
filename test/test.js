@@ -1,30 +1,34 @@
-QUnit.module("steal-less plugin");
-var asyncTest = QUnit.asyncTest;
 
-var makeIframe = function(src){
-	var iframe = document.createElement('iframe');
-	window.removeMyself = function(){
-		delete window.removeMyself;
+function makeIframe(src, assert) {
+	var done = assert.async();
+	var iframe = document.createElement("iframe");
+
+	window.assert = assert;
+	window.done = function() {
+		done();
 		document.body.removeChild(iframe);
 	};
+
 	document.body.appendChild(iframe);
 	iframe.src = src;
-};
+}
 
-asyncTest("set options to less plugin", function(){
-	makeIframe("less_options/site.html");
+QUnit.module("steal-less plugin");
+
+QUnit.test("set options to less plugin", function(assert) {
+	makeIframe("less_options/site.html", assert);
 });
 
-asyncTest("less loads in the right spot", function(){
-	makeIframe("less_imports/dev.html");
+QUnit.test("less loads in the right spot", function(assert) {
+	makeIframe("less_imports/dev.html", assert);
 });
 
-asyncTest("less loads imports that include locate:// paths", function(){
-	makeIframe("less_tilde/dev.html");
+QUnit.test("less loads imports that include locate:// paths", function(assert) {
+	makeIframe("less_tilde/dev.html", assert);
 });
 
-asyncTest("Get good error messages on 404s", function() {
-	makeIframe("less_error/dev.html");
-})
+QUnit.test("Get good error messages on 404s", function(assert) {
+	makeIframe("less_error/dev.html", assert);
+});
 
 QUnit.start();
