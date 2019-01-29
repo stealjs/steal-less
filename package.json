@@ -30,7 +30,7 @@
     "qunitjs": "^1.23.1",
     "steal": "^1.12.6",
     "steal-qunit": "^1.0.0",
-    "testee": "^0.8.1"
+    "testee": "^0.9.0"
   },
   "steal": {
     "plugins": [
