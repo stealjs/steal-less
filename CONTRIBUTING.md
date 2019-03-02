@@ -33,5 +33,5 @@ npm test
 
 ## Getting Help
 
-[Our forums](http://forums.donejs.com) and [Gitter chat](https://gitter.im/donejs/donejs) are the best places to ask questions.
+[Our forums](https://forums.bitovi.com/c/stealjs) and [Slack](https://www.bitovi.com/community/slack) ([#stealjs channel](https://bitovi-community.slack.com/messages/CFDDX9MJS)) are the best places to ask questions.
 
