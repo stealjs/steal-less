@@ -1,6 +1,6 @@
 {
   "name": "steal-less",
-  "version": "1.3.0",
+  "version": "1.3.4",
   "description": "less plugin for StealJS",
   "main": "less.js",
   "scripts": {
@@ -22,16 +22,15 @@
   },
   "homepage": "https://github.com/stealjs/steal-less",
   "dependencies": {
-    "less": "3.0.2",
+    "less": "^3.0.0",
     "steal-css": "^1.2.0"
   },
   "devDependencies": {
     "bit-docs": "0.0.7",
-    "bower": "^1.4.1",
     "qunitjs": "^1.23.1",
-    "steal": "^1.0.0",
+    "steal": "^1.12.6",
     "steal-qunit": "^1.0.0",
-    "testee": "^0.3.0"
+    "testee": "^0.8.1"
   },
   "steal": {
     "plugins": [
@@ -66,6 +65,14 @@
     },
     "ext": {
       "less": "steal-less"
+    },
+    "meta": {
+      "less/dist/less": {
+        "format": "global",
+        "deps": [
+          "steal-less/less-config"
+        ]
+      }
     }
   },
   "bit-docs": {
