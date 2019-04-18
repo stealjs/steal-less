@@ -29,7 +29,7 @@
     "bit-docs": "0.0.7",
     "qunitjs": "^1.23.1",
     "steal": "^1.12.6",
-    "steal-qunit": "^1.0.0",
+    "steal-qunit": "^2.0.0",
     "testee": "^0.8.1"
   },
   "steal": {
