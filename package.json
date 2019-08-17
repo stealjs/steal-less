@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/stealjs/steal-less",
   "dependencies": {
-    "less": "2.4.0 - 2.6.0",
+    "less": "^3.0.0",
     "steal-css": "^1.2.0"
   },
   "devDependencies": {
